@@ -24,6 +24,10 @@
 
 (use-package multi-vterm :ensure t)
 
+(use-package docker
+  :ensure t
+  :bind ("C-c d" . docker))
+
 (provide 'init-dev)
 
 ;;; init-dev.el ends here
