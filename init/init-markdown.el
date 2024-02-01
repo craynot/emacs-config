@@ -1,3 +1,9 @@
+;;; init-markdown.el --- MD
+
+;;; Commentary:
+
+;;; Code:
+
 (use-package markdown-soma :ensure t)
 (use-package markdown-mode
   :ensure t
@@ -7,3 +13,5 @@
 
 
 (provide 'init-markdown)
+
+;;; init-markdown.el ends here
