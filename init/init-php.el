@@ -4,12 +4,23 @@
 
 ;;; Code:
 
-(use-package php-mode
+(use-package php-ts-mode
+  :straight '(php-ts-mode :type git :host github :repo "emacs-php/php-ts-mode"
+            :files (:defaults "*.el"))
   :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
-  (add-to-list 'auto-mode-alist '("\\.inc$" . php-mode)))
-
+  :init
+  (add-hook 'php-ts-mode-hook #'(lambda ()
+				 ;; Use spaces for indent
+				 (setq-local indent-tabs-mode nil)
+				 (setq-local tab-width 4)
+				 ;; Lsp jump-to
+				 (define-key php-ts-mode-map (kbd "M-]")
+					     'lsp-bridge-find-def)
+				 (define-key php-ts-mode-map (kbd "M-[")
+					     'lsp-bridge-find-def-return)
+				 
+				 (setq-local show-trailing-whitespace t)))
+  (customize-set-variable 'treesit-font-lock-level 4))
 
 (use-package web-mode
   :ensure t
@@ -22,36 +33,14 @@
   (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode)))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+  (add-hook 'hack-local-variables-hook #'(lambda ()
+					   (when (derived-mode-p 'web-mode)
+					     (if (boundp 'web-mode-default-engine)
+						 (web-mode-set-engine web-mode-default-engine))
+					     ))))
 
-
-(use-package ac-php :ensure)
-
-(define-key ac-complete-mode-map [tab] 'auto-complete)
-
-(add-hook 'php-mode-hook
-          '(lambda ()
-             ;; Enable auto-complete-mode
-             (auto-complete-mode t)
-
-             (require 'ac-php)
-	     (require 'etags)
-             (setq ac-sources '(ac-source-php))
-
-	     (yas-global-mode 1)
-
-             ;; Enable ElDoc support (optional)
-             (ac-php-core-eldoc-setup)
-
-             ;; Jump to definition (optional)
-             (define-key php-mode-map (kbd "M-]")
-               'ac-php-find-symbol-at-point)
-
-             ;; Return back (optional)
-             (define-key php-mode-map (kbd "M-[")
-               'ac-php-location-stack-back)))
-
-(define-key php-mode-map (kbd "C-'") 'yas-expand)
+(setq lsp-bridge-php-lsp-server "phpactor")
 
 (provide 'init-php)
 

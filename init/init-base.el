@@ -42,8 +42,7 @@
   :ensure t
   :config
   (drag-stuff-global-mode 1)
-  (drag-stuff-define-keys)
-  )
+  (drag-stuff-define-keys))
 
 (provide 'init-base)
 

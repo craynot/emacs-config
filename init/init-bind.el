@@ -9,10 +9,6 @@
 (global-set-key [C-tab] "\C-q\t")
 (global-set-key "\C-l" 'goto-line)
 (global-set-key "\C-cs" 'multi-vterm-project)
-(global-set-key (kbd "C-c t") (lambda ()
-                                (interactive)
-                                (term "/bin/bash")))
-
 
 (provide 'init-bind)
 
