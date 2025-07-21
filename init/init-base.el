@@ -44,6 +44,13 @@
   (drag-stuff-global-mode 1)
   (drag-stuff-define-keys))
 
+(use-package treesit
+  :config
+  (add-to-list 'treesit-language-source-alist
+	       '(json "https://github.com/tree-sitter/tree-sitter-json"))
+  (add-to-list 'treesit-language-source-alist
+	       '(dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")))
+
 (provide 'init-base)
 
 ;;; init-base.el ends here

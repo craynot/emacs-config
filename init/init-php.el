@@ -20,7 +20,8 @@
 					     'lsp-bridge-find-def-return)
 				 
 				 (setq-local show-trailing-whitespace t)))
-  (customize-set-variable 'treesit-font-lock-level 4))
+  (customize-set-variable 'treesit-font-lock-level 4)
+  (setq lsp-bridge-php-lsp-server "phpactor"))
 
 (use-package web-mode
   :ensure t
@@ -38,9 +39,10 @@
 					   (when (derived-mode-p 'web-mode)
 					     (if (boundp 'web-mode-default-engine)
 						 (web-mode-set-engine web-mode-default-engine))
-					     ))))
+					     )))
+  :custom
+  (web-mode-code-indent-offset 2))
 
-(setq lsp-bridge-php-lsp-server "phpactor")
 
 (provide 'init-php)
 

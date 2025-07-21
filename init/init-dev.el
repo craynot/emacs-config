@@ -45,9 +45,21 @@
   :ensure t
   :bind ("C-c d" . docker))
 
-(setenv "DOCKER_HOST" "unix:///run/user/1000/docker.sock")
-
-(setq js-indent-level 2)
+(use-package json-ts-mode
+  :straight (:type built-in)
+  :defer t
+  :ensure t
+  :init
+  (add-to-list 'major-mode-remap-alist
+	       '(json-mode . json-ts-mode))
+  :config
+  (add-hook 'json-ts-mode-hook
+            (lambda ()
+              (make-local-variable 'js-indent-level)
+              (setq-local tab-width 4)
+	      (setq-local indent-tabs-mode nil)
+              (setq-local json-ts-mode-indent-offset 4)))
+  (add-to-list 'auto-mode-alist '("\\.json$" . json-ts-mode)))
 
 (use-package lsp-bridge
   :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
@@ -55,10 +67,23 @@
             :build (:not compile))
   :init
   (global-lsp-bridge-mode)
-  (yas-global-mode 1))
+  (yas-global-mode 1)
+  (setq lsp-bridge-enable-hover-diagnostic nil)
+  (setq lsp-bridge-enable-diagnostics nil))
 
-(setq lsp-bridge-enable-hover-diagnostic nil)
-(setq lsp-bridge-enable-diagnostics nil)
+
+(use-package protobuf-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.proto$" . protobuf-mode)))
+
+(use-package dockerfile-ts-mode
+  :straight (:type built-in)
+  :defer t
+  :mode (("\\Dockerfile\\'" . dockerfile-ts-mode)
+         ("\\.dockerignore\\'" . dockerfile-ts-mode)))
+
+
 
 (provide 'init-dev)
 
