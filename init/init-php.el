@@ -18,6 +18,10 @@
 					     'lsp-bridge-find-def)
 				 (define-key php-ts-mode-map (kbd "M-[")
 					     'lsp-bridge-find-def-return)
+				 (define-key php-ts-mode-map (kbd "M-.")
+					     'lsp-bridge-find-references)
+				 (define-key php-ts-mode-map (kbd "C-p")
+					     'open-project-org-file)
 				 
 				 (setq-local show-trailing-whitespace t)))
   (customize-set-variable 'treesit-font-lock-level 4)
