@@ -77,6 +77,11 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.proto$" . protobuf-mode)))
 
+(add-hook 'protobuf-mode-hook
+          (lambda ()
+            (setq c-basic-offset 4)
+            (setq indent-tabs-mode nil)))
+
 (use-package dockerfile-ts-mode
   :straight (:type built-in)
   :defer t
